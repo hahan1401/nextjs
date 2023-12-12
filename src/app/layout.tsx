@@ -21,7 +21,7 @@ export default function RootLayout({
       <body className={inter.className}>
         <CoreProvider>
           <div className='p-10'>{children}</div>
-          <ReactQueryDevtools initialIsOpen={true} />
+          {/* <ReactQueryDevtools initialIsOpen={true} /> */}
         </CoreProvider>
       </body>
     </html>

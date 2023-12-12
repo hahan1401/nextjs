@@ -15,7 +15,7 @@ export const serverUpdateUser = async (userId: any, data: any) => {
 export const serverAddUser = async (data: any) => {
   const res = await addUser(data);
   if (res) {
-    revalidateTag('user-list');
+    // revalidateTag('user-list');
   }
   return res;
 }

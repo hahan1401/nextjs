@@ -1,5 +1,6 @@
 'use client';
 
+import FormAddNewUser from '@/components/FormAddNewUser';
 import ServerStaticComponent from '@/components/ServerStaticComponent';
 import { useGetlistUSer } from '@/network/queries';
 import Link from 'next/link';
@@ -31,7 +32,8 @@ const ClientComponent = ({component} : {component: React.ReactNode}) => {
       {/* <p>{Math.random()}</p> */}
       <div>
         {/* <ServerStaticComponent /> */}
-        {component}
+        {/* {component} */}
+        <FormAddNewUser />
       </div>
     </div>
   );

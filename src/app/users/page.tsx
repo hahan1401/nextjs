@@ -5,7 +5,8 @@ import FormAddNewUser from '@/components/FormAddNewUser';
 import FormUpdateUser from '@/components/FormUpdateUser';
 import { serverGetTodos } from '../../network/todo';
 import TodoList from '@/components/TodoList';
-import { getPostDetail, serverGetUSers } from '@/network/user';
+import { clientGetUSers, getPostDetail, serverGetUSers } from '@/network/user';
+import { HydrationBoundary, Mutation, Query, QueryClient, dehydrate } from '@tanstack/react-query';
 
 const UsersPage = async () => {
   // const users = await serverGetUSers();
@@ -14,6 +15,15 @@ const UsersPage = async () => {
 
   // Wait for the promises to resolve
   const [users] = await Promise.all([serverGetUSers(), getPostDetail()]);
+
+  
+	const queryClient = new QueryClient();
+	// const params = decodeQueryParams(paramStaffConfigMap, { pageSize: '20', pageIndex: '0', ...searchParams });
+	await queryClient.prefetchQuery({
+		queryKey: ['query-list'],
+		queryFn: () => clientGetUSers(),
+	});
+
   return (
     <div className='container flex gap-4'>
       <div className='flex-1'>
@@ -38,7 +48,19 @@ const UsersPage = async () => {
         </Suspense> */}
       </div>
       <div className='flex-1'>
+        
+		<HydrationBoundary state={dehydrate(queryClient, {
+				shouldDehydrateMutation: (mutation: Mutation) => {
+					console.log('mutation', mutation);
+					return true;
+				},
+        shouldDehydrateQuery: (query: Query) => {
+          console.log('query', query);
+          return true;
+        }
+			})}>
         <ClientComponent component={<TodoList/>} />
+    </HydrationBoundary>
       </div>
     </div>
   );
