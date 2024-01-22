@@ -21,7 +21,7 @@ const UsersPage = async () => {
 	// const params = decodeQueryParams(paramStaffConfigMap, { pageSize: '20', pageIndex: '0', ...searchParams });
 	await queryClient.prefetchQuery({
 		queryKey: ['query-list'],
-		queryFn: () => clientGetUSers(),
+		queryFn: () => clientGetUSers(), 
 	});
 
   return (
