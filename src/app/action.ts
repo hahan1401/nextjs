@@ -16,6 +16,7 @@ export const serverAddUser = async (data: any) => {
   const res = await addUser(data);
   if (res) {
     // revalidateTag('user-list');
+    //test jenkins build
   }
   return res;
 }
