@@ -1,0 +1,10 @@
+.next
+node_modules
+.git
+.dockerignore
+.gitignore
+.idea
+jenkins
+.vscode
+.husky
+README.md
