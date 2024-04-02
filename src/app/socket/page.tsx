@@ -6,6 +6,7 @@ import { socket } from "./socket";
 export default function Home() {
   const [isConnected, setIsConnected] = useState(false);
   const [transport, setTransport] = useState("N/A");
+  const [value, setValue] = useState();
 
   useEffect(() => {
     if (socket.connected) {
@@ -19,6 +20,12 @@ export default function Home() {
       socket.io.engine.on("upgrade", (transport) => {
         setTransport(transport.name);
       });
+
+      socket.on('hello', (value) => {
+        // once the event is successfully handled
+        console.log('value---', value);
+        setValue(value)
+      });
     }
 
     function onDisconnect() {
@@ -26,8 +33,8 @@ export default function Home() {
       setTransport("N/A");
     }
 
-    socket.on("connect", onConnect);
-    socket.on("disconnect", onDisconnect);
+    socket.on("connection", onConnect);
+    // socket.on("disconnect", onDisconnect);
 
     return () => {
       socket.off("connect", onConnect);
@@ -39,6 +46,7 @@ export default function Home() {
     <div>
       <p>Status: { isConnected ? "connected" : "disconnected" }</p>
       <p>Transport: { transport }</p>
+      <strong>value: {value}</strong>
     </div>
   );
 }
