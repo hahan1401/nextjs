@@ -1,17 +1,17 @@
-'use client';
+"use client";
 
-import FormAddNewUser from '@/components/FormAddNewUser';
-import ServerStaticComponent from '@/components/ServerStaticComponent';
-import { useGetlistUSer } from '@/network/queries';
-import Link from 'next/link';
-import React from 'react';
+import FormAddNewUser from "@/components/FormAddNewUser";
+import ServerStaticComponent from "@/components/ServerStaticComponent";
+import { useGetlistUSer } from "@/network/queries";
+import Link from "next/link";
+import React from "react";
 
-const ClientComponent = ({component} : {component: React.ReactNode}) => {
+const ClientComponent = () => {
   // const [data, setData] = useState([]);
-  const {data: listUser = []} = useGetlistUSer();
+  // const {data: listUser = []} = useGetlistUSer();
   // const getUsers = async () => {
   //   const users = await clientGetUSers();
-    
+
   //   setData(users);
   // };
 
@@ -19,20 +19,25 @@ const ClientComponent = ({component} : {component: React.ReactNode}) => {
   //   getUsers();
   // }, []);
 
+  const { data, isLoading } = useGetlistUSer();
+
   return (
     <div>
-      <p className='mb-2'>client component</p>
+      <p className="mb-2">client component</p>
       <ul>
-        {listUser?.map((user: any, index: any) => (
-          <li key={index}>
-            <Link href={`user/${user.userId}`}>{user.name}</Link>
-          </li>
-        ))}
+        {isLoading
+          ? "Loading..."
+          : data?.map((user: any, index: any) => (
+              <li key={index}>
+                <Link href={`user/${user.userId}`}>{user.name}</Link>
+              </li>
+            ))}
       </ul>
       {/* <p>{Math.random()}</p> */}
       <div>
         {/* <ServerStaticComponent /> */}
         {/* {component} */}
+        <strong>{Math.random()}</strong>
         <FormAddNewUser />
       </div>
     </div>
