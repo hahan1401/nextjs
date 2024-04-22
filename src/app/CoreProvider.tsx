@@ -1,7 +1,9 @@
 'use client';
+import { useServerListenerEvent } from '@/hooks/useServerListenerEvent';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactNode, useState } from 'react';
 const CoreProvider = ({ children }: { children: ReactNode }) => {
+	useServerListenerEvent();
   const [queryClient] = useState(
 		() =>
 			new QueryClient({
