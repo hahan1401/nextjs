@@ -2,7 +2,6 @@ import './globals.css';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import CoreProvider from './CoreProvider';
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -21,7 +20,6 @@ export default function RootLayout({
       <body className={inter.className}>
         <CoreProvider>
           <div className='p-10'>{children}</div>
-          {/* <ReactQueryDevtools initialIsOpen={true} /> */}
         </CoreProvider>
       </body>
     </html>
