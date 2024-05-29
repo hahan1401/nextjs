@@ -18,7 +18,7 @@ const _fetch = (
 			...init?.headers
 		},
 		next: init?.next,
-		cache: init?.next ? undefined : 'no-cache',
+		cache: init?.next ? undefined : 'default',
 		...omit(init, ['timeout', 'headers', 'next']),
 	};
 

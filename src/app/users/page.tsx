@@ -5,7 +5,7 @@ import FormAddNewUser from "@/components/FormAddNewUser";
 import FormUpdateUser from "@/components/FormUpdateUser";
 import { serverGetTodos } from "../../network/todo";
 import TodoList from "@/components/TodoList";
-import { clientGetUSers, getPostDetail, serverGetUSers } from "@/network/user";
+import { clientGetUSers, getPostDetail, serverGetDetail, serverGetUSers } from "@/network/user";
 import {
   HydrationBoundary,
   Mutation,
@@ -13,8 +13,18 @@ import {
   QueryClient,
   dehydrate,
 } from "@tanstack/react-query";
+import { unstable_after as after } from 'next/server';
+
+export const preload = (id: number) => {
+  // void evaluates the given expression and returns undefined
+  // https://developer.mozilla.org/docs/Web/JavaScript/Reference/Operators/void
+  void serverGetDetail(id)
+}
 
 const UsersPage = async () => {
+
+  console.time(`start_render`);
+  preload(1)
   const users = await serverGetUSers();
   // const todos = await serverGetTodos();
   console.log("==============re-render================");
@@ -29,6 +39,13 @@ const UsersPage = async () => {
   //   queryFn: () => clientGetUSers(),
   // });
 
+  const user = await serverGetDetail(1)
+
+
+  after(() => {
+    console.timeEnd(`start_render`);
+  })
+
   return (
     <div className="container flex gap-4">
       <div className="flex-1">
@@ -37,7 +54,7 @@ const UsersPage = async () => {
           <ul>
             {users.map((user: any, index: any) => (
               <li key={index} className="flex justify-between mb-2">
-                <Link href={`user/${user.userId}`}>{user.name}</Link>
+                <Link href={`user/${user.userId}`}>{user.name}{'     '} <strong>{user.userId}</strong></Link>
                 <FormUpdateUser user={user} mini={true} />
               </li>
             ))}

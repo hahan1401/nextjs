@@ -2,17 +2,16 @@ import FormUpdateUser from '@/components/FormUpdateUser';
 import { serverGetTodos } from '@/network/todo';
 import { serverGetDetail } from '@/network/user';
 import { preload } from '@/utils/serverOnly';
-
+import { unstable_after as after } from 'next/server';
 
 const USerDetail = async ({ params } : {params: any}) => {
-  // const user = await serverGetDetail(params.slug);
-
-  preload(params.slug)
-
-  await serverGetTodos()
+  console.time(`start_render_with_id=${params.slug}`);
   const user = await serverGetDetail(params.slug);
-  // const user = await preloadDetail(params.slug);
-  
+
+
+  after(() => {
+    console.timeEnd(`start_render_with_id=${params.slug}`);
+  })
 
   return (
     <div className='flex gap-4'>
